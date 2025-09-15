@@ -1,6 +1,8 @@
 import { usePageParam } from "./hooks/usePageParam";
 import { useGetJobsQuery } from "./services/jobApi";
 
+import { Button } from "./components/ui/button";
+
 const App = () => {
   const [page, setPage] = usePageParam(1);
   const { data: jobs, error, isLoading } = useGetJobsQuery(page);
@@ -30,20 +32,20 @@ const App = () => {
       </ul>
 
       <div className="flex justify-between mt-6">
-        <button
+        <Button
+          variant="default"
           disabled={!jobs?.links.prev}
           onClick={() => setPage(Math.max(1, page - 1))}
-          className="px-3 py-1 border rounded disabled:opacity-50"
         >
           Previous
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="default"
           disabled={!jobs?.links.next}
           onClick={() => setPage(page + 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );

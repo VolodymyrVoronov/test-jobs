@@ -1,35 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { usePageParam } from "./hooks/usePageParam";
+import { useGetJobsQuery } from "./services/jobApi";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [page, setPage] = usePageParam(1);
+  const { data: jobs, error, isLoading } = useGetJobsQuery(page);
+
+  if (isLoading) return <p>Loading jobs...</p>;
+  if (error) return <p>Failed to fetch jobs.</p>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Jobs</h1>
+      <ul className="space-y-4">
+        {jobs?.data.map((job) => (
+          <li key={job.slug} className="border p-4 rounded-xl shadow-sm">
+            <h2 className="text-lg font-semibold">{job.title}</h2>
+            <p className="text-gray-600">{job.company_name}</p>
+            <p className="text-sm">{job.location}</p>
+            <a
+              href={job.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 underline text-sm"
+            >
+              View Job
+            </a>
+          </li>
+        ))}
+      </ul>
 
-export default App
+      <div className="flex justify-between mt-6">
+        <button
+          disabled={!jobs?.links.prev}
+          onClick={() => setPage(Math.max(1, page - 1))}
+          className="px-3 py-1 border rounded disabled:opacity-50"
+        >
+          Previous
+        </button>
+        <button
+          disabled={!jobs?.links.next}
+          onClick={() => setPage(page + 1)}
+          className="px-3 py-1 border rounded disabled:opacity-50"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default App;
+

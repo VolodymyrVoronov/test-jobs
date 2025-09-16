@@ -1,3 +1,5 @@
+export type Theme = "light" | "dark" | "system";
+
 export interface IJob {
   slug: string;
   company_name: string;

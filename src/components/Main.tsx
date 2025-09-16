@@ -1,5 +1,12 @@
 import parse from "html-react-parser";
-import { Link, MapPinHouse, NotebookPen } from "lucide-react";
+import {
+  Briefcase,
+  Laptop,
+  Link,
+  MapPinHouse,
+  NotebookPen,
+  Tag,
+} from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 
@@ -19,6 +26,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "./ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface IMainProps {
   items: IJob[];
@@ -48,9 +56,32 @@ const Main = ({ items, page }: IMainProps) => {
 
             <CardContent className="space-y-2">
               <p className="text-md font-semibold text-muted-foreground flex flex-row items-center gap-1">
+                <MapPinHouse className="size-3" />
                 {job.location}
-                <MapPinHouse className="size-4" />
               </p>
+
+              <Badge
+                variant={job.remote ? "default" : "secondary"}
+                className="flex items-center gap-1"
+              >
+                <Laptop className="size-4" />
+                {job.remote ? "Remote" : "On-site"}
+              </Badge>
+
+              {job.job_types?.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {job.job_types.map((type) => (
+                    <Badge
+                      key={type}
+                      variant="outline"
+                      className="flex items-center gap-1 text-xs"
+                    >
+                      <Briefcase className="size-3" />
+                      {type}
+                    </Badge>
+                  ))}
+                </div>
+              )}
 
               <Collapsible className="space-y-2">
                 <CollapsibleTrigger asChild>
@@ -65,6 +96,19 @@ const Main = ({ items, page }: IMainProps) => {
                   </p>
                 </CollapsibleContent>
               </Collapsible>
+
+              <div className="flex flex-wrap gap-2">
+                {job.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className="flex items-center gap-1 text-xs"
+                  >
+                    <Tag className="size-3" />
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </CardContent>
 
             <CardFooter>

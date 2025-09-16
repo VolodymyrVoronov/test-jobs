@@ -1,16 +1,18 @@
-import { Virtuoso } from "react-virtuoso";
+import { ArrowLeft, ArrowRight, Home } from "lucide-react";
 
 import { usePageParam } from "./hooks/usePageParam";
 import { useGetJobsQuery } from "./services/jobApi";
 
 import AppLayout from "./layout/AppLayout";
 
+import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Main from "./components/Main";
 import { Button } from "./components/ui/button";
 
 const App = () => {
   const [page, setPage] = usePageParam(1);
-  const { data: jobs, error, isLoading } = useGetJobsQuery(page);
+  const { data: jobs, error, isLoading, isFetching } = useGetJobsQuery(page);
   const items = jobs?.data ?? [];
 
   if (isLoading) return <p>Loading jobs...</p>;
@@ -20,46 +22,39 @@ const App = () => {
     <AppLayout>
       <Header />
 
-      <div className="h-[calc(100vh-36px-40px)] max-w-2xl mx-auto px-2">
-        <Virtuoso
-          data={items}
-          itemContent={(index, job) => (
-            <div
-              key={job.slug + index}
-              className="border p-4 rounded-xl shadow-sm mb-4"
-            >
-              <h2 className="text-lg font-semibold">{job.title}</h2>
-              <p className="text-gray-600">{job.company_name}</p>
-              <p className="text-sm">{job.location}</p>
-              <a
-                href={job.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline text-sm"
-              >
-                View Job
-              </a>
-            </div>
-          )}
-        />
-      </div>
+      <Main items={items} page={page} />
 
-      <div className="flex justify-between">
+      <Footer>
         <Button
           variant="default"
-          disabled={!jobs?.links.prev}
+          disabled={!jobs?.links.prev || isLoading || isFetching}
           onClick={() => setPage(Math.max(1, page - 1))}
+          className="flex items-center gap-2"
         >
+          <ArrowLeft className="size-4" />
           Previous
         </Button>
+
         <Button
           variant="default"
-          disabled={!jobs?.links.next}
+          disabled={isLoading || isFetching}
+          onClick={() => setPage(1)}
+          className="flex items-center gap-2"
+        >
+          <Home className="size-4" />
+          Home
+        </Button>
+
+        <Button
+          variant="default"
+          disabled={!jobs?.links.next || isLoading || isFetching}
           onClick={() => setPage(page + 1)}
+          className="flex items-center gap-2"
         >
           Next
+          <ArrowRight className="size-4" />
         </Button>
-      </div>
+      </Footer>
     </AppLayout>
   );
 };

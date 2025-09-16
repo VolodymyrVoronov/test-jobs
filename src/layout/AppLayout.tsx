@@ -10,7 +10,7 @@ const AppLayout = ({ children }: IAppLayoutProps) => {
   const footer = children[2];
 
   return (
-    <div className="">
+    <div className="space-y-2">
       {header}
       {main}
       {footer}

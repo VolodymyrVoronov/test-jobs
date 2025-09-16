@@ -37,7 +37,7 @@ const App = () => {
 
         <Button
           variant="default"
-          disabled={isLoading || isFetching}
+          disabled={isLoading || isFetching || page === 1}
           onClick={() => setPage(1)}
           className="flex items-center gap-2"
         >

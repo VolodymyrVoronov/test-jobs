@@ -1,18 +1,10 @@
-import parse from "html-react-parser";
-import {
-  Briefcase,
-  Laptop,
-  Link,
-  MapPin,
-  NotebookPen,
-  Tag,
-  Building,
-} from "lucide-react";
+import { Briefcase, Building, Laptop, Link, MapPin, Tag } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 
 import type { IJob } from "@/types";
 
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -21,13 +13,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import JobDescription from "./JobDescription";
 import { Button } from "./ui/button";
-import { Badge } from "@/components/ui/badge";
 
 interface IMainProps {
   items: IJob[];
@@ -58,7 +45,7 @@ const Main = ({ items, page }: IMainProps) => {
               <CardDescription>{job.company_name}</CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-4">
               <div className="flex flex-wrap items-center gap-2">
                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
                   <MapPin className="size-4" />
@@ -89,24 +76,9 @@ const Main = ({ items, page }: IMainProps) => {
                 ))}
               </div>
 
-              <div className="gap-2 flex flex-col">
+              <div className="gap-4 flex flex-col">
                 {job.description && (
-                  <Collapsible className="space-y-2">
-                    <CollapsibleTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="flex items-center gap-2"
-                      >
-                        <NotebookPen className="size-4" />
-                        View Description
-                      </Button>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <p className="text-sm">
-                        {parse(job.description, { trim: true })}
-                      </p>
-                    </CollapsibleContent>
-                  </Collapsible>
+                  <JobDescription description={job.description} />
                 )}
 
                 {job.tags.length > 0 && (

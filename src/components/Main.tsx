@@ -86,7 +86,7 @@ const Main = ({ items, page }: IMainProps) => {
               ref={cardRef}
               key={job.slug + index}
               className={cn("mb-4 mx-2 hover:shadow-lg transition", {
-                "bg-rose-50": job.slug === clickedJob?.slug,
+                "bg-rose-100": job.slug === clickedJob?.slug,
               })}
             >
               <CardHeader>

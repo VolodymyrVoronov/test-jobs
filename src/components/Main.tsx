@@ -43,7 +43,11 @@ const Main = ({ items, page }: IMainProps) => {
   }, [page, items.length]);
 
   const scrollToJob = (index: number) => {
-    virtuosoRef.current?.scrollToIndex({ index, behavior: "smooth" });
+    virtuosoRef.current?.scrollToIndex({
+      index,
+      behavior: "smooth",
+      align: "center",
+    });
   };
 
   return (

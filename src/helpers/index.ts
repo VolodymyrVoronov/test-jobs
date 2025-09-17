@@ -17,3 +17,24 @@ export const applyTheme = (theme: Theme): void => {
 
   root.classList.add(theme);
 };
+
+export function findScrollableDescendant(
+  root: Element | null
+): HTMLElement | null {
+  if (!root) return null;
+
+  const queue: Element[] = [root];
+
+  while (queue.length) {
+    const el = queue.shift()!;
+
+    if (el instanceof HTMLElement) {
+      // treat as scrollable if it can scroll vertically
+      if (el.scrollHeight > el.clientHeight) return el;
+    }
+
+    queue.push(...Array.from(el.children));
+  }
+
+  return null;
+}

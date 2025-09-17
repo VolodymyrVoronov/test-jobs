@@ -40,6 +40,8 @@ const Main = ({ items, page }: IMainProps) => {
         viewport.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
+
+    setClickedJob(null);
   }, [page, items.length]);
 
   const scrollToJob = (index: number) => {
@@ -58,11 +60,11 @@ const Main = ({ items, page }: IMainProps) => {
           type="auto"
           className="h-[calc(100vh-90px)] pl-2 pr-4 pb-2"
         >
-          <div className="flex flex-wrap gap-2 pb-2">
+          <div className="flex flex-wrap gap-1 pb-2">
             {items.map((job, index) => (
               <Button
                 key={job.slug}
-                className="p-1.5 text-left"
+                className="p-1.5 text-left shadow-none border"
                 variant={job.slug === clickedJob?.slug ? "default" : "outline"}
                 size="sm"
                 onClick={() => {
@@ -98,7 +100,7 @@ const Main = ({ items, page }: IMainProps) => {
 
               <CardContent className="space-y-4">
                 <div className="flex flex-wrap items-center gap-2">
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground font-semibold">
                     <MapPin className="size-4" />
                     {job.location}
                   </div>

@@ -1,8 +1,9 @@
 import { Briefcase, Building, Laptop, Link, MapPin, Tag } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 
 import { findScrollableDescendant } from "@/helpers";
+import { cn } from "@/lib/utils";
 import type { IJob } from "@/types";
 
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +28,8 @@ const Main = ({ items, page }: IMainProps) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const virtuosoRef = useRef<VirtuosoHandle>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  const [clickedJob, setClickedJob] = useState<IJob | null>(null);
 
   useEffect(() => {
     if (items.length > 0) {
@@ -55,10 +58,13 @@ const Main = ({ items, page }: IMainProps) => {
             {items.map((job, index) => (
               <Button
                 key={job.slug}
-                className="p-1.5 text-left text-xs"
-                variant="outline"
+                className="p-1.5 text-left"
+                variant={job.slug === clickedJob?.slug ? "default" : "outline"}
                 size="sm"
-                onClick={() => scrollToJob(index)}
+                onClick={() => {
+                  scrollToJob(index);
+                  setClickedJob(job);
+                }}
               >
                 {index + 1}. {job.title}
               </Button>
@@ -75,7 +81,9 @@ const Main = ({ items, page }: IMainProps) => {
             <Card
               ref={cardRef}
               key={job.slug + index}
-              className="mb-4 mx-2 hover:shadow-lg transition"
+              className={cn("mb-4 mx-2 hover:shadow-lg transition", {
+                "bg-rose-50": job.slug === clickedJob?.slug,
+              })}
             >
               <CardHeader>
                 <CardTitle className="text-lg">

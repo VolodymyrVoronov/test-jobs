@@ -16,8 +16,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import JobDescription from "./JobDescription";
+import JobsButtons from "./JobsButtons";
 import { Button } from "./ui/button";
-import { ScrollArea } from "./ui/scroll-area";
 
 interface IMainProps {
   items: IJob[];
@@ -54,35 +54,19 @@ const Main = ({ items, page }: IMainProps) => {
 
   return (
     <div className="grid grid-cols-2">
-      <aside>
-        <ScrollArea
-          ref={scrollAreaRef}
-          type="auto"
-          className="h-[calc(100vh-90px)] pl-2 pr-4 pb-2"
-        >
-          <div className="flex flex-wrap gap-1 pb-2">
-            {items.map((job, index) => (
-              <Button
-                key={job.slug}
-                className="p-1.5 text-left shadow-none border"
-                variant={job.slug === clickedJob?.slug ? "default" : "outline"}
-                size="sm"
-                onClick={() => {
-                  scrollToJob(index);
-                  setClickedJob(job);
-                }}
-              >
-                {index + 1}. {job.title}
-              </Button>
-            ))}
-          </div>
-        </ScrollArea>
-      </aside>
+      <JobsButtons
+        items={items}
+        clickedJob={clickedJob}
+        scrollAreaRef={scrollAreaRef}
+        onJobClick={setClickedJob}
+        scrollToJob={scrollToJob}
+      />
 
       <main className="h-[calc(100vh-90px)] px-2">
         <Virtuoso
           ref={virtuosoRef}
           data={items}
+          className="custom-scroll"
           itemContent={(index, job) => (
             <Card
               ref={cardRef}

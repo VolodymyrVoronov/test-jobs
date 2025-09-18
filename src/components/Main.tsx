@@ -1,5 +1,5 @@
 import { Briefcase, Building, Laptop, Link, MapPin, Tag } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 
 import { findScrollableDescendant } from "@/helpers";
@@ -15,9 +15,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import JobDescription from "./JobDescription";
-import JobsButtons from "./JobsButtons";
 import { Button } from "./ui/button";
+import Spinner from "./Spinner";
+
+const JobDescription = lazy(() => import("./JobDescription"));
+const JobsButtons = lazy(() => import("./JobsButtons"));
 
 interface IMainProps {
   items: IJob[];
@@ -54,13 +56,19 @@ const Main = ({ items, page }: IMainProps) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2">
-      <JobsButtons
-        items={items}
-        clickedJob={clickedJob}
-        scrollAreaRef={scrollAreaRef}
-        onJobClick={setClickedJob}
-        scrollToJob={scrollToJob}
-      />
+      <Suspense
+        fallback={
+          <Spinner className="h-full flex items-center justify-center" />
+        }
+      >
+        <JobsButtons
+          items={items}
+          clickedJob={clickedJob}
+          scrollAreaRef={scrollAreaRef}
+          onJobClick={setClickedJob}
+          scrollToJob={scrollToJob}
+        />
+      </Suspense>
 
       <main className="h-[calc(100vh-106px)] px-2">
         <Virtuoso
@@ -116,7 +124,16 @@ const Main = ({ items, page }: IMainProps) => {
 
                 <div className="gap-4 flex flex-col">
                   {job.description && (
-                    <JobDescription description={job.description} />
+                    <Suspense
+                      fallback={
+                        <Spinner
+                          className="h-full flex items-center justify-center"
+                          loaderClassName="size-4"
+                        />
+                      }
+                    >
+                      <JobDescription description={job.description} />
+                    </Suspense>
                   )}
 
                   {job.tags.length > 0 && (

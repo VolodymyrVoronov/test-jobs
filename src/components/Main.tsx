@@ -62,7 +62,7 @@ const Main = ({ items, page }: IMainProps) => {
         scrollToJob={scrollToJob}
       />
 
-      <main className="h-[calc(100vh-90px)] px-2">
+      <main className="h-[calc(100vh-106px)] px-2">
         <Virtuoso
           ref={virtuosoRef}
           data={items}
@@ -71,7 +71,7 @@ const Main = ({ items, page }: IMainProps) => {
             <Card
               ref={cardRef}
               key={job.slug + index}
-              className={cn("mb-4 mx-2 hover:shadow-lg transition", {
+              className={cn("mb-4 mx-2 hover:shadow-lg transition ", {
                 "bg-rose-100 dark:bg-rose-900/80":
                   job.slug === clickedJob?.slug,
               })}

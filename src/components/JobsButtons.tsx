@@ -94,7 +94,7 @@ const JobsButtons = ({
         <ScrollArea
           ref={scrollAreaRef}
           type="auto"
-          className="h-[calc(100vh-90px)] pl-2 pr-4 pb-2"
+          className="h-[calc(100vh-106px)] pl-2 pr-4 pb-2"
         >
           <div className="grid grid-cols-1 lg:flex lg:flex-wrap gap-1 pb-2">
             {items.map((job, index) => (

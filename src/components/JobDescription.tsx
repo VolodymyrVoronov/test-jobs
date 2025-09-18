@@ -20,7 +20,7 @@ interface JobDescriptionProps {
 
 const JobDescription = ({ description }: JobDescriptionProps) => {
   return (
-    <Dialog>
+    <Dialog key="job-description">
       <DialogTrigger asChild>
         <Button variant="outline">
           <NotebookPen className="size-4" />

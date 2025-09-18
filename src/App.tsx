@@ -20,7 +20,7 @@ const App = () => {
 
   return (
     <AppLayout>
-      <Header />
+      <Header items={items} />
 
       <Main items={items} page={page} />
 

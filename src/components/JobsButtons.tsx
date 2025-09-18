@@ -47,7 +47,7 @@ const JobsButtons = ({
 
   return (
     <>
-      <Drawer open={open} onClose={onClose}>
+      <Drawer open={open} onClose={onClose} key="jobs-buttons">
         <DrawerTrigger asChild>
           <Button
             onClick={onOpen}

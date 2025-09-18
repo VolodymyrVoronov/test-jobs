@@ -58,7 +58,7 @@ const Main = ({ items, page }: IMainProps) => {
     <div className="grid grid-cols-1 md:grid-cols-2">
       <Suspense
         fallback={
-          <Spinner className="h-full flex items-center justify-center" />
+          <Spinner wrapperClassName="h-full flex items-center justify-center" />
         }
       >
         <JobsButtons
@@ -127,7 +127,7 @@ const Main = ({ items, page }: IMainProps) => {
                     <Suspense
                       fallback={
                         <Spinner
-                          className="h-full flex items-center justify-center"
+                          wrapperClassName="h-full flex items-center justify-center"
                           loaderClassName="size-4"
                         />
                       }

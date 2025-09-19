@@ -8,6 +8,7 @@ import type { RootState } from "./store/store";
 
 import AppLayout from "./layout/AppLayout";
 
+import ErrorBlock from "./components/ErrorBlock";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Main from "./components/Main";
@@ -29,7 +30,7 @@ const App = () => {
         loaderClassName="size-4"
       />
     );
-  if (error) return <p>Failed to fetch jobs.</p>;
+  if (error) return <ErrorBlock />;
 
   const handleResetTags = () => dispatch(resetTags());
 

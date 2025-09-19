@@ -16,6 +16,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "./ui/button";
+import { useMemo } from "react";
 
 interface IJobsTagsProps {
   items: IJob[];
@@ -25,8 +26,12 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
   const dispatch = useDispatch();
   const tags = useSelector((state: RootState) => state.app.tags);
 
-  const uniqueTags = [...new Set(items.map((item) => item.tags).flat())].sort(
-    (a, b) => a.localeCompare(b)
+  const uniqueTags = useMemo(
+    () =>
+      [...new Set(items.map((item) => item.tags).flat())].sort((a, b) =>
+        a.localeCompare(b)
+      ),
+    [items]
   );
 
   const onReset = () => dispatch(resetTags());
@@ -34,6 +39,8 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
   const onJobClick = (tag: string) => {
     dispatch(setTags(tag));
   };
+
+  const anyTagsSelected = tags.length > 0;
 
   return (
     <Drawer direction="top" key="jobs-tags">
@@ -50,7 +57,7 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Jobs Tags</DrawerTitle>
+          <DrawerTitle>Jobs Tags ({uniqueTags.length})</DrawerTitle>
           <DrawerDescription>
             Select jobs tags, to filter jobs.
           </DrawerDescription>
@@ -71,7 +78,11 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
         </ul>
 
         <DrawerFooter className="flex justify-center flex-row gap-2 items-center w-full">
-          <Button onClick={onReset} className="w-fit">
+          <Button
+            onClick={onReset}
+            className="w-fit"
+            disabled={!anyTagsSelected}
+          >
             <RotateCcw className="size-4" />
             Reset Tags
           </Button>

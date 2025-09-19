@@ -20,7 +20,7 @@ interface IJobsButtonsProps {
   clickedJob: IJob | null;
   scrollAreaRef: RefObject<HTMLDivElement | null>;
 
-  onJobClick: (job: IJob) => void;
+  onJobClick: (job: IJob | null) => void;
   scrollToJob: (index: number) => void;
 }
 
@@ -29,7 +29,7 @@ const JobsButtons = ({
   clickedJob,
   scrollAreaRef,
 
-  onJobClick,
+  onJobClick: onJobClickProp,
   scrollToJob,
 }: IJobsButtonsProps) => {
   const { width } = useWindowSize();
@@ -38,6 +38,14 @@ const JobsButtons = ({
 
   const onOpen = () => setOpen(true);
   const onClose = () => setOpen(false);
+
+  const onJobClick = (job: IJob) => {
+    if (job.slug !== clickedJob?.slug) {
+      onJobClickProp(job);
+    } else {
+      onJobClickProp(null);
+    }
+  };
 
   useEffect(() => {
     if (width > 768) {

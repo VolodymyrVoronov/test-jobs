@@ -49,9 +49,9 @@ const App = () => {
   };
 
   const tagsAmount = tags.length;
-  const noTags = tagsAmount === 0;
+  const noTagsSelected = tagsAmount === 0;
 
-  const filteredItems = noTags
+  const filteredItems = noTagsSelected
     ? items
     : items.filter((item) => item.tags.some((tag) => tags.includes(tag)));
 

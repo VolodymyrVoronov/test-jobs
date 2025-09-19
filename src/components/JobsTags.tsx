@@ -76,7 +76,7 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
                   onClick={() => onJobClick(tag)}
                 >
                   <Tag className="size-4" />
-                  <span className="text-xs md:text-sm">{tag}</span>
+                  <span className="text-xs lg:text-sm">{tag}</span>
                 </Button>
               </li>
             ))}

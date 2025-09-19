@@ -15,9 +15,9 @@ interface IHeaderProps {
 
 const Header = ({ items }: IHeaderProps) => {
   return (
-    <header className="border-b px-2 flex flex-row items-center justify-between max-w-full">
+    <header className="border-b px-2 grid grid-cols-3 items-center w-full">
       <h1
-        className="text-2xl font-bold"
+        className="text-2xl font-bold justify-self-start"
         style={{
           fontFamily: "Bangers, cursive, system-ui",
         }}
@@ -33,10 +33,14 @@ const Header = ({ items }: IHeaderProps) => {
           />
         }
       >
-        <JobsTags items={items} />
+        <div className="justify-self-center">
+          <JobsTags items={items} />
+        </div>
       </Suspense>
 
-      <ThemeSwitcher />
+      <div className="justify-self-end">
+        <ThemeSwitcher />
+      </div>
     </header>
   );
 };

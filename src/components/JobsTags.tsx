@@ -1,5 +1,6 @@
 import { RotateCcw, Tag } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
+import { useWindowSize } from "usehooks-ts";
 
 import { resetTags, setTags } from "@/store/appSlice";
 import type { RootState } from "@/store/store";
@@ -15,8 +16,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "./ui/button";
 import { useMemo } from "react";
+import { Button } from "./ui/button";
 
 interface IJobsTagsProps {
   items: IJob[];
@@ -25,6 +26,7 @@ interface IJobsTagsProps {
 const JobsTags = ({ items }: IJobsTagsProps) => {
   const dispatch = useDispatch();
   const tags = useSelector((state: RootState) => state.app.tags);
+  const { width } = useWindowSize();
 
   const uniqueTags = useMemo(
     () =>
@@ -41,9 +43,10 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
   };
 
   const anyTagsSelected = tags.length > 0;
+  const drawerPosition = width > 768 ? "top" : "right";
 
   return (
-    <Drawer direction="top" key="jobs-tags">
+    <Drawer direction={drawerPosition} key="jobs-tags">
       <DrawerTrigger asChild>
         <Button
           title="Jobs Tags"
@@ -63,19 +66,22 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
           </DrawerDescription>
         </DrawerHeader>
 
-        <ul className="flex flex-row justify-center items-center gap-1 flex-wrap px-4">
-          {uniqueTags.map((tag) => (
-            <li key={tag} className="flex-1">
-              <Button
-                className="border w-full shadow-none"
-                variant={tags.includes(tag) ? "default" : "outline"}
-                onClick={() => onJobClick(tag)}
-              >
-                <Tag className="size-4" /> {tag}
-              </Button>
-            </li>
-          ))}
-        </ul>
+        <div className="overflow-auto">
+          <ul className="flex flex-row justify-center items-center gap-1 flex-wrap px-4">
+            {uniqueTags.map((tag) => (
+              <li key={tag} className="flex-1">
+                <Button
+                  className="border w-full shadow-none"
+                  variant={tags.includes(tag) ? "default" : "outline"}
+                  onClick={() => onJobClick(tag)}
+                >
+                  <Tag className="size-4" />
+                  <span className="text-xs md:text-sm">{tag}</span>
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <DrawerFooter className="flex justify-center flex-row gap-2 items-center w-full">
           <Button

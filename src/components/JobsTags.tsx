@@ -46,7 +46,7 @@ const JobsTags = ({ items }: IJobsTagsProps) => {
   const drawerPosition = width > 768 ? "top" : "right";
 
   return (
-    <Drawer direction={drawerPosition} key="jobs-tags">
+    <Drawer direction={drawerPosition} key="jobs-tags" autoFocus>
       <DrawerTrigger asChild>
         <Button
           title="Jobs Tags"

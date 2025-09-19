@@ -70,7 +70,7 @@ const Main = ({ items, page }: IMainProps) => {
         />
       </Suspense>
 
-      <main className="h-[calc(100vh-106px)] px-2">
+      <main className="h-[calc(100svh-106px)] px-2">
         <Virtuoso
           ref={virtuosoRef}
           data={items}
